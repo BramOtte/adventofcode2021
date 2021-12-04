@@ -54,7 +54,9 @@ async function load_part(solve: [To_Solve, ...string[]], folder: string, inputs:
             input_str,
         };
         const output = await f(context);
-        html.innerHTML += output;
+        const o = document.createElement("code");
+        o.innerText = ""+output;
+        html.appendChild(o);
 
     }
 }

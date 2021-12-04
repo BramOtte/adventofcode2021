@@ -48,7 +48,9 @@ async function load_part(solve, folder, inputs, html) {
             input_str,
         };
         const output = await f(context);
-        html.innerHTML += output;
+        const o = document.createElement("code");
+        o.innerText = "" + output;
+        html.appendChild(o);
     }
 }
 export {};
