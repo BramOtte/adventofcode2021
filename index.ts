@@ -18,7 +18,9 @@ async function load_day(day: number, root: HTMLElement){
     const folder = `day/${day}`;
     const src = await fetch(`/${folder}/sol.ts`).then(res=>res.text());
     const mod = (await import(`./${folder}/sol.js`)) as {solve: Solve};
-    day_el.innerHTML = `<h1>day${day}</h1><details><summary>source code</summary><pre>${src}</pre></details>`;
+    day_el.innerHTML = `<h1 id="day${day}">day${day}</h1><details><summary>source code</summary><pre>${src}</pre></details>`
+        + `<a href="https://github.com/BramOtte/adventofcode2021/blob/main/day/${day}/sol.ts">Github</a>`
+        + `<br><a href="https://adventofcode.com/2021/day/${day}">Puzzle Description</a>`;
     const inputs: Record<string, string> = {};
     for (let i = 0; i < mod.solve.length; i++){
         const s = mod.solve[i];

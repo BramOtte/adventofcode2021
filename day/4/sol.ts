@@ -4,23 +4,23 @@ const board_side = 5
 const board_size = board_side*board_side;
 const marked = 1/256
 
-async function parse(text :string){
+function parse(text :string){
     const first_le = text.indexOf("\n");
     const draws = text.substring(0, first_le).split(",").map(v=>parseInt(v));
     const boards = text.substring(first_le).split(/\s+/).filter(v=>v).map(v=>parseInt(v));
     return {draws, boards}
 }
 
-async function part1({input_str}: Context){
-    const {draws, boards} = await parse(input_str);
+function part1({input_str}: Context){
+    const {draws, boards} = parse(input_str);
     const {start, draw} = wins(draws, boards).next().value as {start: number, draw: number};
     const sum = 0| boards.slice(start, start+board_size).reduce((a, v)=>a+v, 0);
     const output = sum * draw;
     return output;
 }
 
-async function part2({html, input_str}: Context){
-    const {draws, boards} = await parse(input_str);
+function part2({input_str}: Context){
+    const {draws, boards} = parse(input_str);
     let last_win: {start: number, draw: number};
     for (const win of wins(draws, boards)){
         last_win = win;
