@@ -24,7 +24,7 @@ async function load_day(day: number, root: HTMLElement){
     const day_el = document.createElement("div");
     root.appendChild(day_el);
     const folder = `day/${day}`;
-    const src = await load_text(`../${folder}/sol.ts`);
+    const src = await load_text(`./${folder}/sol.ts`);
     const mod = (await import(`./${folder}/sol.js`)) as {solve: Solve};
     day_el.innerHTML = `<h1 id="day${day}">day${day}</h1><details><summary>source code</summary><pre>${src}</pre></details>`
         + `<a href="https://github.com/BramOtte/adventofcode2021/blob/main/day/${day}/sol.ts">Github</a>`
