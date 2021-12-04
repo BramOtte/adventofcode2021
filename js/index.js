@@ -11,7 +11,6 @@ async function load_text(url) {
     const res = await fetch(url);
     const text = await res.text();
     if (!res.ok) {
-        const url = `data:text/html,${btoa(text)}`;
         throw new Error(`error ${res.status}: ${res.statusText}, ${url}`);
     }
     return text;
@@ -40,7 +39,7 @@ async function load_part(solve, folder, inputs, html) {
         html.innerHTML += `<h3>${url}:<h3>`;
         let input_str = inputs[url];
         if (input_str === undefined) {
-            input_str = await load_text(`../${folder}/${url}.txt`);
+            input_str = await load_text(`./${folder}/${url}.txt`);
             html.innerHTML += `<details><summary>input</summary><pre>${input_str}</pre></details>`;
             inputs[url] = input_str;
         }
