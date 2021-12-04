@@ -7,11 +7,20 @@ async function load() {
         load_day(day, root);
     }
 }
+async function load_text(url) {
+    const res = await fetch(url);
+    const text = await res.text();
+    if (!res.ok) {
+        const url = `data:text/html,${btoa(text)}`;
+        throw new Error(`error ${res.status}: ${res.statusText}, ${url}`);
+    }
+    return text;
+}
 async function load_day(day, root) {
     const day_el = document.createElement("div");
     root.appendChild(day_el);
     const folder = `day/${day}`;
-    const src = await fetch(`../${folder}/sol.ts`).then(res => res.text());
+    const src = await load_text(`../${folder}/sol.ts`);
     const mod = (await import(`./${folder}/sol.js`));
     day_el.innerHTML = `<h1 id="day${day}">day${day}</h1><details><summary>source code</summary><pre>${src}</pre></details>`
         + `<a href="https://github.com/BramOtte/adventofcode2021/blob/main/day/${day}/sol.ts">Github</a>`
@@ -31,7 +40,8 @@ async function load_part(solve, folder, inputs, html) {
         html.innerHTML += `<h3>${url}:<h3>`;
         let input_str = inputs[url];
         if (input_str === undefined) {
-            input_str = await fetch(`../${folder}/${url}.txt`).then(res => res.text());
+            input_str = await load_text(`../${folder}/${url}.txt`);
+            html.innerHTML += `<details><summary>input</summary><pre>${input_str}</pre></details>`;
             inputs[url] = input_str;
         }
         const context = {
