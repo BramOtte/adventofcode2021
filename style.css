@@ -20,10 +20,10 @@ a {
 a:hover, a:focus {
   color: #99ff99;
 }
-h1, h2 {
+/* h1, h2 {
   font-size: 1em;
   font-weight: normal;
-}
+} */
 code {
   position: relative;
   display: inline-block;
