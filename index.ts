@@ -10,9 +10,10 @@ async function load(){
     const root = document.createElement("div");
     document.body.appendChild(root);
     // const day = 5;
-    for (let day = 1; day <= day_count; day++){
-        load_day(day, root);
-    }
+    // await load_day(day, root);
+    await Promise.allSettled(Array.from({length:day_count}, (v,i)=>load_day(i+1, root)));
+    location.href = location.href;
+        
 }
 async function load_text(url: string){
     const res = await fetch(url);
@@ -35,12 +36,11 @@ async function load_day(day: number, root: HTMLElement){
     );
     root.appendChild(day_el);
     const inputs: Record<string, string> = {};
-    for (let i = 0; i < mod.solve.length; i++){
-        const s = mod.solve[i];
+    await Promise.allSettled(mod.solve.map((s, i) => {
         const part_el = l("div", {}, l("h2", {}, `part ${i+1}`));
         day_el.appendChild(part_el);
-        load_part(s, folder, inputs, part_el);
-    }
+        return load_part(s, folder, inputs, part_el);
+    }))
 }
 
 async function load_part(solve: [To_Solve, ...string[]], folder: string, inputs: Record<string, string>, html: HTMLElement){
