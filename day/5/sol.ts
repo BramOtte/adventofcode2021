@@ -1,7 +1,9 @@
-import { l } from "../../l.js";
+import { lazy_canvas, l } from "../../util.js";
 
-export const solve: Solve = [[part1,"example", "input"], [part2,"example", 'input']];
-
+export const solve: Solve = [
+    [part1,"example", "input"], [part2,"example", "input"],
+    // [p1,"example", "input"], [p2,"example", "input"]
+];
 const w = 1024, h = w;
 
 function parse(text:string){
@@ -28,7 +30,7 @@ function part1({input_str, html}: Context){
             }
         }
     }
-    add_render_button(html, grid, 0, 0, max+1, max+1);
+    html.appendChild(add_render_button(grid, 0, 0, max+1, max+1));
     return count;
 }
 
@@ -49,31 +51,29 @@ function part2( {input_str, html}: Context){
             count++;
         }
     }
-    add_render_button(html, grid, 0, 0, max+1, max+1);
+    html.appendChild(add_render_button(grid, 0, 0, max+1, max+1));
     return count;
 }
 
-function add_render_button(html: HTMLElement, grid: Int32Array, ox: number, oy: number, w: number, h: number){
-    const button = document.createElement("button");
-    button.textContent = "render grid";
-    button.onclick = () => {
-        const details = l("details",
-            {open: true},
-            l("summary", {}, "grid"),
-            draw_canvas(grid, oy, oy, w, h),
-        ) ;
-        html.removeChild(button);
-        html.appendChild(details);
-    }
-    html.appendChild(button);
+function p1({input_str: t}: Context){
+    let w=1024,g=new Int8Array(w*w),c=0,s=Math.sign,a,b
+    t.split("\n").map(line=>line.split(/\D+/).map(v=>parseInt(v))).map(
+        ([x,y,X,Y])=>{for(a=s(X-x),b=s(Y-y);(!a||!b)&&x^X+a|y^Y+b;++g[x+y*w]==2&&c++,x+=a,y+=b);})
+    return c
 }
 
-function draw_canvas(grid: Int32Array, ox: number, oy: number, w: number, h: number): HTMLCanvasElement {
-    const canvas = l("canvas", {width: w, height: h});
-    const ctx = canvas.getContext("2d");
-    if (ctx === null){throw new Error("unable to get canvas");}
-    draw_grid(ctx, grid, ox, oy);
-    return canvas;
+function p2({input_str: t}: Context){
+    let w=1024,g=new Int8Array(w*w),c=0,s=Math.sign,a,b
+    t.split("\n").map(line=>line.split(/\D+/).map(v=>parseInt(v))).map(
+        ([x,y,X,Y])=>{for(a=s(X-x),b=s(Y-y);x^X+a|y^Y+b;++g[x+y*w]==2&&c++,x+=a,y+=b);});
+    return c
+}
+
+function add_render_button(grid: Int32Array, ox: number, oy: number, w: number, h: number){
+    return lazy_canvas({
+        btn_text: "Render Grid", summary: "Grid", 
+        width: w, height: h, on_btn: (ctx)=>draw_grid(ctx, grid, ox, oy)}
+    );
 }
 
 function draw_grid(ctx: CanvasRenderingContext2D, grid: Int32Array, ox: number, oy: number) {

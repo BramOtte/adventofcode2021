@@ -1,4 +1,4 @@
-import { l } from "./l.js";
+import { l } from "./util.js";
 
 export{}
 
@@ -38,7 +38,7 @@ async function load_day(day: number, root: HTMLElement){
     root.appendChild(day_el);
     const inputs: Record<string, string> = {};
     await Promise.allSettled(mod.solve.map((s, i) => {
-        const part_el = l("div", {}, l("h2", {}, `part ${i+1}`));
+        const part_el = l("div", {}, l("h2", {}, `${s[0].name}`));
         day_el.appendChild(part_el);
         return load_part(s, folder, inputs, part_el);
     }))
