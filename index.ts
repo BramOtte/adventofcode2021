@@ -1,6 +1,6 @@
 export{}
 
-const day_count = 4;
+const day_count = 5;
 
 
 load();
@@ -13,11 +13,11 @@ async function load(){
 }
 async function load_text(url: string){
     const res = await fetch(url);
-    const text = await res.text();
     if (!res.ok){
         throw new Error(`error ${res.status}: ${res.statusText}, ${url}`);
     }
-    return text;
+    const text = await res.text();
+    return text.replace(/\r/g, "");
 }
 
 async function load_day(day: number, root: HTMLElement){
@@ -46,9 +46,9 @@ async function load_part(solve: [To_Solve, ...string[]], folder: string, inputs:
         let input_str = inputs[url];
         if (input_str === undefined){
             input_str = await load_text(`./${folder}/${url}.txt`);
-            html.innerHTML += `<details><summary>input</summary><pre>${input_str}</pre></details>`;
             inputs[url] = input_str;
- }
+        }
+        html.innerHTML += `<details><summary>input</summary><pre>${input_str}</pre></details>`;
         const context: Context = {
             html: html.appendChild(document.createElement("div")),
             input_str,

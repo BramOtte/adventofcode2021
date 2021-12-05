@@ -6,6 +6,7 @@ function parse(text) {
     const first_le = text.indexOf("\n");
     const draws = text.substring(0, first_le).split(",").map(v => parseInt(v));
     const boards = text.substring(first_le).split(/\s+/).filter(v => v).map(v => parseInt(v));
+    console.log(boards.length);
     return { draws, boards };
 }
 function part1({ input_str }) {

@@ -25,7 +25,7 @@ function part1({input_str}: Context){
     }
     const epsilon = ~gamma & ((1 << width) - 1);
     const output = gamma * epsilon;
-    return output;
+    return JSON.stringify({output, epsilon, gamma});
 }
 
 function count_bits(values: number[], i: number){
@@ -41,6 +41,7 @@ function part2({input_str}: Context){
     let O2 = best_match(values, width, (c, h) => c >= h);
     let CO2 = best_match(values, width, (c, h) => c < h);
     const output = O2 * CO2;
+    return JSON.stringify({output, O2, CO2});
     return output;
 }
 
