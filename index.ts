@@ -12,8 +12,9 @@ async function load(){
     // const day = 5;
     // await load_day(day, root);
     await Promise.allSettled(Array.from({length:day_count}, (v,i)=>load_day(i+1, root)));
-    location.href = location.href;
-        
+    if (location.href.includes("#")){
+        location.href = location.href;
+    }
 }
 async function load_text(url: string){
     const res = await fetch(url);
