@@ -1,3 +1,5 @@
+import { l } from "../../l.js";
+
 export const solve: Solve = [[part1,"example", "input"], [part2,"example", 'input']];
 
 const w = 1024, h = w;
@@ -55,16 +57,19 @@ function add_render_button(html: HTMLElement, grid: Int32Array, ox: number, oy: 
     const button = document.createElement("button");
     button.textContent = "render grid";
     button.onclick = () => {
-        const canvas = draw_canvas(grid, oy, oy, w, h);
+        const details = l("details",
+            {open: true},
+            l("summary", {}, "grid"),
+            draw_canvas(grid, oy, oy, w, h),
+        ) ;
         html.removeChild(button);
-        html.appendChild(canvas);
+        html.appendChild(details);
     }
     html.appendChild(button);
 }
 
 function draw_canvas(grid: Int32Array, ox: number, oy: number, w: number, h: number): HTMLCanvasElement {
-    const canvas = document.createElement("canvas");
-    canvas.width = w; canvas.height = h;
+    const canvas = l("canvas", {width: w, height: h});
     const ctx = canvas.getContext("2d");
     if (ctx === null){throw new Error("unable to get canvas");}
     draw_grid(ctx, grid, ox, oy);
@@ -73,19 +78,20 @@ function draw_canvas(grid: Int32Array, ox: number, oy: number, w: number, h: num
 
 function draw_grid(ctx: CanvasRenderingContext2D, grid: Int32Array, ox: number, oy: number) {
     const {width, height} = ctx.canvas;
+    const img = ctx.createImageData(width, height);
+    const data = img.data;
     const ex = ox + width, ey = oy + height;
     for (let y = oy; y < ey; y++){
         for (let x = ox; x < ex; x++){
-            
             const val = grid[x + y * w];
             if (val === 0){
-                ctx.fillStyle = "#000";
+                data.set([0,0,0,255], (x + y * width) * 4);
             } else if (val === 1){
-                ctx.fillStyle = "#222";
+                data.set([32,32,32,255], (x + y * width) * 4);
             } else {
-                ctx.fillStyle = "#fff";
+                data.set([255,255,255,255], (x + y * width) * 4);
             }
-            ctx.fillRect(x, y, 1, 1);
         }
     }
+    ctx.putImageData(img, 0, 0);
 }

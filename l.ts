@@ -1,10 +1,13 @@
 export {l, attribute};
+type L<T extends string | HTMLElement> =  T extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[T]: (T extends HTMLElement ? T : HTMLElement)
+
 /*
 a new HTML-element is made with the tag
 if there is an object apply its attributes to the element
 append each given child to the element
 */
-function l(tagOrElement: string | HTMLElement = "DIV", attributes: Record<string, any> = {}, ...children: (Node|string)[]): HTMLElement{
+function l<T extends string | HTMLElement>(tagOrElement: T|string = "DIV", attributes: Partial<L<T>> & {tagName?: never} = {}, ...children: (Node|string)[]): L<T>
+{
     let element: HTMLElement;
     if (typeof tagOrElement === 'object')element = tagOrElement;
     else element =  document.createElement(tagOrElement);
@@ -12,7 +15,7 @@ function l(tagOrElement: string | HTMLElement = "DIV", attributes: Record<string
         attribute(element, attributes)
     if (children)
         element.append(...children)
-    return element;
+    return element as any;
 }
 l.document = window?.document;
 l.setDocument = document=>{l.document = document;}
