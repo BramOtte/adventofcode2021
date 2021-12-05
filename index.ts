@@ -7,11 +7,11 @@ const day_count = 5;
 
 load();
 async function load(){
-    const root = document.createElement("div");
+    const root = l();
     document.body.appendChild(root);
     // const day = 5;
     // await load_day(day, root);
-    await Promise.allSettled(Array.from({length:day_count}, (v,i)=>load_day(i+1, root)));
+    await Promise.allSettled(Array.from({length:day_count}, (v,i)=>load_day(i+1, root.appendChild(l()))));
     if (location.href.includes("#")){
         location.href = location.href;
     }
@@ -30,7 +30,7 @@ async function load_day(day: number, root: HTMLElement){
     const src = await load_text(`./${folder}/sol.ts`);
     const mod = (await import(`./${folder}/sol.js`)) as {solve: Solve};
     const day_el = l("div", {},
-        l("h1", {id:`day${day}`}, `day${day}`), 
+        l("h1", {id:`day${day}`}, `day ${day}`), 
         l("details", {}, l("summary", {}, "source code"), l("pre",{},src)),
         l("a", {href:`https://github.com/BramOtte/adventofcode2021/blob/main/day/${day}/sol.ts`}, "github"), l("br"),
         l("a", {href:`https://adventofcode.com/2021/day/${day}`}, "Puzzle Description"),
