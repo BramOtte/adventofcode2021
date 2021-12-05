@@ -3,13 +3,15 @@ export const solve: Solve = [[part1,"example", "input"], [part2,"example", 'inpu
 const w = 1024, h = w;
 
 function parse(text:string){
-    return text.split("\n").filter(v=>v).map(line=>
+    const input = text.split("\n").filter(v=>v).map(line=>
         line.split(/\D+/).map(v => parseInt(v))
     ) as [x1: number, y1: number, x2: number, y2: number][];
+    const max = Math.max(...input.flat());
+    return {input, max}
 }
 
-function part1({input_str}: Context){
-    const input = parse(input_str);
+function part1({input_str, html}: Context){
+    const {input, max} = parse(input_str);
     let count = 0
     const grid = new Int32Array(w*h);
     for (const [x1, y1, x2, y2] of input){
@@ -24,11 +26,12 @@ function part1({input_str}: Context){
             }
         }
     }
+    add_render_button(html, grid, 0, 0, max+1, max+1);
     return count;
 }
 
-function part2( {input_str}: Context){
-    const input = parse(input_str);
+function part2( {input_str, html}: Context){
+    const {input, max} = parse(input_str);
     let count = 0;
     const grid = new Int32Array(w*h);
     for (const [x1, y1, x2, y2] of input){
@@ -44,5 +47,45 @@ function part2( {input_str}: Context){
             count++;
         }
     }
+    add_render_button(html, grid, 0, 0, max+1, max+1);
     return count;
+}
+
+function add_render_button(html: HTMLElement, grid: Int32Array, ox: number, oy: number, w: number, h: number){
+    const button = document.createElement("button");
+    button.textContent = "render grid";
+    button.onclick = () => {
+        const canvas = draw_canvas(grid, oy, oy, w, h);
+        html.removeChild(button);
+        html.appendChild(canvas);
+    }
+    html.appendChild(button);
+}
+
+function draw_canvas(grid: Int32Array, ox: number, oy: number, w: number, h: number): HTMLCanvasElement {
+    const canvas = document.createElement("canvas");
+    canvas.width = w; canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    if (ctx === null){throw new Error("unable to get canvas");}
+    draw_grid(ctx, grid, ox, oy);
+    return canvas;
+}
+
+function draw_grid(ctx: CanvasRenderingContext2D, grid: Int32Array, ox: number, oy: number) {
+    const {width, height} = ctx.canvas;
+    const ex = ox + width, ey = oy + height;
+    for (let y = oy; y < ey; y++){
+        for (let x = ox; x < ex; x++){
+            
+            const val = grid[x + y * w];
+            if (val === 0){
+                ctx.fillStyle = "#000";
+            } else if (val === 1){
+                ctx.fillStyle = "#222";
+            } else {
+                ctx.fillStyle = "#fff";
+            }
+            ctx.fillRect(x, y, 1, 1);
+        }
+    }
 }
