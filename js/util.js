@@ -67,4 +67,10 @@ export function lazy_canvas(ctx) {
     }
     return button;
 }
+export function sum(numbers) {
+    return numbers.reduce((a, b) => a + b, 0);
+}
+export function sumb(numbers) {
+    return numbers.reduce((a, b) => a + b, 0n);
+}
 //# sourceMappingURL=util.js.map

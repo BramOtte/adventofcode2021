@@ -1,10 +1,10 @@
 import { l } from "./util.js";
-const day_count = 5;
+const day_count = 6;
 load();
 async function load() {
     const root = l();
     document.body.appendChild(root);
-    // const day = 5;
+    // const day = day_count;
     // await load_day(day, root);
     await Promise.allSettled(Array.from({ length: day_count }, (v, i) => load_day(i + 1, root.appendChild(l()))));
     if (location.href.includes("#")) {

@@ -85,3 +85,10 @@ export function lazy_canvas(ctx: Draw_Context): HTMLElement {
 
     return button;
 }
+
+export function sum(numbers: number[]){
+    return numbers.reduce((a,b) => a + b, 0);
+}
+export function sumb(numbers: bigint[]){
+    return numbers.reduce((a,b) => a + b, 0n);
+}
