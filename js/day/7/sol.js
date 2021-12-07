@@ -38,7 +38,6 @@ function cost(groups, x) {
     }));
 }
 function part2({ input_str }) {
-    console.time("part2");
     const input = parse(input_str);
     const groups = group(input);
     let start = 0, end = groups.length;
@@ -56,7 +55,6 @@ function part2({ input_str }) {
             min_cost = c1;
         }
     }
-    console.timeEnd("part2");
     return min_cost;
 }
 //# sourceMappingURL=sol.js.map

@@ -41,7 +41,6 @@ function cost(groups: number[], x: number): number {
 }
 
 function part2( {input_str}: Context){
-    console.time("part2");
     const input = parse(input_str);
     const groups = group(input);
     let start = 0, end = groups.length;
@@ -58,6 +57,5 @@ function part2( {input_str}: Context){
             min_cost = c1;
         }
     }
-    console.timeEnd("part2");
     return min_cost;
 }
