@@ -33,19 +33,31 @@ function part1({input_str}: Context){
     return undefined;
 }
 
-function cost(input: number[], x: number): number {
-    return sum(input.map(v=>{
-        const a =Math.abs(v-x);
-        return a*(a+1)/2;
+function cost(groups: number[], x: number): number {
+    return sum(groups.map((v,i)=>{
+        const a = Math.abs(i-x);
+        return v * a*(a+1)/2;
     }));
 }
 
 function part2( {input_str}: Context){
+    console.time("part2");
     const input = parse(input_str);
-    const max = Math.max(...input);
-    let xs = [];
-    for (let x = 0; x <= max; x++){
-        xs.push(x);
+    const groups = group(input);
+    let start = 0, end = groups.length;
+    let min_cost = 0;
+    while (start < end - 1){
+        const guess = 0| (start + end) / 2;
+        const c1 = cost(groups, guess);
+        const c2 = cost(groups, guess+1);
+        if (c1 > c2){
+            start = guess;
+            min_cost = c2;
+        } else {
+            end = guess;
+            min_cost = c1;
+        }
     }
-    return Math.min(...Array.from({length: max-1}, (_,x)=>cost(input,x));
+    console.timeEnd("part2");
+    return min_cost;
 }
