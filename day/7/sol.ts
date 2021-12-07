@@ -14,7 +14,6 @@ function group(input: number[]) {
 }
 
 function part1({input_str}: Context){
-    // console.time("part1");
     const input = parse(input_str);
     const groups = group(input);
     let left = 0, left_cnt = 0
@@ -23,14 +22,10 @@ function part1({input_str}: Context){
     let last = right;
     for (; x < groups.length; x++){
         const count = groups[x] ?? 0;
-        if (count > 1){
-            console.log(count);
-        }
         left_cnt += count; right_cnt -= count;
         left += left_cnt; right -= right_cnt;
         const cost = left + right;
         if (last < cost){
-            // console.timeEnd("part1");
             return last
         }
         last = cost;
@@ -46,14 +41,11 @@ function cost(input: number[], x: number): number {
 }
 
 function part2( {input_str}: Context){
-    // console.time("part2");
     const input = parse(input_str);
     const max = Math.max(...input);
     let xs = [];
     for (let x = 0; x <= max; x++){
         xs.push(x);
     }
-    const ans = Math.min(...xs.map(x => cost(input,x)));
-    // console.timeEnd("part2");
-    return ans;
+    return Math.min(...Array.from({length: max-1}, (_,x)=>cost(input,x));
 }
