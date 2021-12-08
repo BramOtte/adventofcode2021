@@ -31,7 +31,7 @@ function part2({ input_str }) {
     const input = parse(input_str);
     let tot = 0;
     for (let [left, right] of input) {
-        const num_str = {};
+        const num_str = [];
         const str_num = {};
         for (const d of left) {
             const num = d1478.get(d.length);
@@ -44,15 +44,11 @@ function part2({ input_str }) {
         for (const d of left) {
             let digit = str_num[d];
             if (digit !== undefined) {
-                num_str[digit] = d;
-                str_num[d] = digit;
                 continue;
             }
             const m1 = count_only(d, num_str[1]);
             const m4 = count_only(d, num_str[4]);
-            const m7 = count_only(d, num_str[7]);
-            digit = -1;
-            if (d.length === 5 && m1 === 2 && m4 === 3 && m7 === 3) {
+            if (d.length === 5 && m1 === 2) {
                 digit = 3;
             }
             if (d.length === 5 && m1 === 1 && m4 === 2) {
@@ -61,19 +57,17 @@ function part2({ input_str }) {
             if (d.length === 5 && m1 === 1 && m4 === 3) {
                 digit = 5;
             }
-            if (d.length === 6 && m1 === 1 && m4 === 3 && m7 === 2) {
+            if (d.length === 6 && m1 === 1) {
                 digit = 6;
             }
-            if (d.length === 6 && m1 === 2 && m4 === 3 && m7 === 3) {
+            if (d.length === 6 && m1 === 2 && m4 === 3) {
                 digit = 0;
             }
             if (d.length === 6 && m1 === 2 && m4 === 4) {
                 digit = 9;
             }
-            if (digit >= 0) {
-                num_str[digit] = d;
-                str_num[d] = digit;
-            }
+            num_str[digit] = d;
+            str_num[d] = digit;
         }
         tot += parseInt(right.map(d => str_num[d]).join(""));
     }
