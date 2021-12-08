@@ -48,7 +48,7 @@ interface Draw_Context {
     update?: (ctx: CanvasRenderingContext2D, t: number) => void | boolean,
     on_open?: ()=> void,
     on_close?: ()=> void,
-    on_btn?: (ctx: CanvasRenderingContext2D) => void
+    on_btn?: (ctx: CanvasRenderingContext2D, t: number) => void
 }
 
 export function lazy_canvas(ctx: Draw_Context): HTMLElement {
@@ -66,7 +66,7 @@ export function lazy_canvas(ctx: Draw_Context): HTMLElement {
                 open();
             }
         }
-        ctx.on_btn?.(ctx2d);
+        ctx.on_btn?.(ctx2d, performance.now());
         open();
         function open(){
             ctx.on_open?.()

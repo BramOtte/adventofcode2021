@@ -1,12 +1,12 @@
 import { l } from "./util.js";
-const day_count = 7;
+const day_count = 8;
 load();
 async function load() {
     const root = l();
     document.body.appendChild(root);
-    // const day = day_count;
+    const day = day_count;
     // await load_day(day, root);
-    await Promise.allSettled(Array.from({ length: day_count }, (v, i) => load_day(i + 1, root.appendChild(l()))));
+    await Promise.all(Array.from({ length: day_count }, (v, i) => load_day(i + 1, root.appendChild(l()))));
     if (location.href.includes("#")) {
         location.href = location.href;
     }
@@ -26,7 +26,7 @@ async function load_day(day, root) {
     const day_el = l("div", {}, l("h1", { id: `day${day}` }, `day ${day}`), l("details", {}, l("summary", {}, "source code"), l("pre", {}, src)), l("a", { href: `https://github.com/BramOtte/adventofcode2021/blob/main/day/${day}/sol.ts` }, "github"), l("br"), l("a", { href: `https://adventofcode.com/2021/day/${day}` }, "Puzzle Description"));
     root.appendChild(day_el);
     const inputs = {};
-    await Promise.allSettled(mod.solve.map((s, i) => {
+    await Promise.all(mod.solve.map((s, i) => {
         const part_el = l("div", {}, l("h2", {}, `${s[0].name}`));
         day_el.appendChild(part_el);
         return load_part(s, folder, inputs, part_el);

@@ -49,7 +49,7 @@ export function lazy_canvas(ctx) {
                 open();
             }
         };
-        ctx.on_btn?.(ctx2d);
+        ctx.on_btn?.(ctx2d, performance.now());
         open();
         function open() {
             ctx.on_open?.();
