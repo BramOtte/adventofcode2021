@@ -5,8 +5,6 @@ function parse(text) {
 const d1478 = new Map([[2, 1], [4, 4], [3, 7], [7, 8]]);
 function part1({ input_str }) {
     const input = parse(input_str);
-    console.log(input);
-    // throw new Error("hello");
     let cnt = 0;
     for (const [_, right] of input) {
         for (const display of right) {
@@ -15,7 +13,6 @@ function part1({ input_str }) {
             }
         }
     }
-    console.log(cnt);
     return cnt;
 }
 const digits = [
@@ -32,8 +29,7 @@ function count_only(display, str) {
 }
 function part2({ input_str }) {
     const input = parse(input_str);
-    console.log(input);
-    let sum = 0;
+    let tot = 0;
     for (let [left, right] of input) {
         const num_str = {};
         const str_num = {};
@@ -62,36 +58,25 @@ function part2({ input_str }) {
             if (d.length === 5 && m1 === 1 && m4 === 2) {
                 digit = 2;
             }
-            if (d.length === 5 && m1 === 1 && m4 === 3 && m7 !== 3) {
+            if (d.length === 5 && m1 === 1 && m4 === 3) {
                 digit = 5;
             }
             if (d.length === 6 && m1 === 1 && m4 === 3 && m7 === 2) {
                 digit = 6;
+            }
+            if (d.length === 6 && m1 === 2 && m4 === 3 && m7 === 3) {
+                digit = 0;
+            }
+            if (d.length === 6 && m1 === 2 && m4 === 4) {
+                digit = 9;
             }
             if (digit >= 0) {
                 num_str[digit] = d;
                 str_num[d] = digit;
             }
         }
-        let num = "";
-        for (const d of right) {
-            let digit = str_num[d];
-            if (digit !== undefined && digit >= 0) {
-                num += digit;
-                continue;
-            }
-            const m1 = count_only(d, num_str[1]);
-            const m3 = count_only(d, num_str[3]);
-            if (d.length === 6 && m1 === 2 && m3 === 4) {
-                digit = 0;
-            }
-            if (d.length === 6 && m1 === 2 && m3 === 5) {
-                digit = 9;
-            }
-            num += digit;
-        }
-        sum += parseInt(num);
+        tot += parseInt(right.map(d => str_num[d]).join(""));
     }
-    return sum;
+    return tot;
 }
 //# sourceMappingURL=sol.js.map
