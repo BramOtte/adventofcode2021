@@ -84,11 +84,9 @@ function button(groups: number[], cost: (x: number)=>number, steps: number[][]){
         const i = Math.min(steps.length-1, 0| t);
         let j = t - i;
         let [begin, end, guess, cost] = steps[i];
-        if (i + 1 < steps.length){
-            const [nb, ne] = steps[i+1];
-            begin = begin + (nb-begin) * j;
-            end = end + (ne-end) * j;
-        }
+        const [nb, ne] = i + 1 < steps.length ? steps[i+1] : [guess, guess];
+        begin = begin + (nb-begin) * j;
+        end = end + (ne-end) * j;
 
         function fit_x(i: number){
             return i * w / (costs.length - 1)

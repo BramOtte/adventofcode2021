@@ -73,4 +73,7 @@ export function sum(numbers) {
 export function sumb(numbers) {
     return numbers.reduce((a, b) => a + b, 0n);
 }
+export function prod(numbers) {
+    return numbers.reduce((a, b) => a * b, 1);
+}
 //# sourceMappingURL=util.js.map

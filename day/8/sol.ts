@@ -1,7 +1,12 @@
 export const solve: Solve = [[part1,"example", "input"], [part2,"example", "input"]];
 
 function parse(text:string){
-    return text.split("\n").filter(v=>v).map(line => line.split("|").map(side=>side.split(" ").filter(v=>v).map(v=>v.split("").sort().join(""))));
+    return text.split("\n").filter(v=>v)
+        .map(line => line.split("|")
+            .map(side=>side.split(" ").filter(v=>v)
+                .map(v=>v.split("").sort().join(""))
+            )
+        );
 }
 const d1478 = new Map([[2,1], [4,4], [3,7], [7,8]]);
 function part1({input_str}: Context){

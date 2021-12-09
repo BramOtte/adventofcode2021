@@ -92,3 +92,7 @@ export function sum(numbers: number[]){
 export function sumb(numbers: bigint[]){
     return numbers.reduce((a,b) => a + b, 0n);
 }
+
+export function prod(numbers: number[]){
+    return numbers.reduce((a,b) => a * b, 1);
+}
