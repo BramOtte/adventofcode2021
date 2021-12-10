@@ -23,10 +23,8 @@ function part1({ input_str }) {
             const end = brackets[char];
             if (end) {
                 stack.push(end);
-                continue;
             }
-            if (char !== stack.pop()) {
-                console.log(char);
+            else if (char !== stack.pop()) {
                 tot += points[char];
                 break;
             }
@@ -49,17 +47,15 @@ function part2({ input_str }) {
             const end = brackets[char];
             if (end) {
                 stack.push(end);
-                continue;
             }
-            if (char !== stack.pop()) {
+            else if (char !== stack.pop()) {
                 continue outer;
             }
         }
-        if (stack.length === 0) {
-            continue;
+        if (stack.length > 0) {
+            const score = stack.reduceRight((a, v) => a * 5 + points2[v], 0);
+            scores.push(score);
         }
-        const score = stack.reduceRight((a, v) => a * 5 + points2[v], 0);
-        scores.push(score);
     }
     return scores.sort((a, b) => a - b)[0 | scores.length / 2];
 }
