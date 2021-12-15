@@ -1,5 +1,5 @@
 import { l } from "./util.js";
-const day_count = 14;
+const day_count = 15;
 load();
 async function load() {
     const root = l();
