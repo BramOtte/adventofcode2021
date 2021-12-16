@@ -2,7 +2,7 @@ import { l } from "./util.js";
 
 export{}
 
-const day_count = 15;
+const day_count = 16;
 
 
 load();

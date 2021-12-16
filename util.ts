@@ -96,3 +96,12 @@ export function sumb(numbers: bigint[]){
 export function prod(numbers: number[]){
     return numbers.reduce((a,b) => a * b, 1);
 }
+export function prodb(numbers: bigint[]){
+    return numbers.reduce((a,b) => a * b, 1n);
+}
+export function minb(numbers: bigint[]){
+    return numbers.reduce((a,b)=>a<b?a:b, numbers[0])
+}
+export function maxb(numbers: bigint[]){
+    return numbers.reduce((a,b)=>a>b?a:b, numbers[0])
+}

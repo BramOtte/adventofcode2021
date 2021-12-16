@@ -76,4 +76,13 @@ export function sumb(numbers) {
 export function prod(numbers) {
     return numbers.reduce((a, b) => a * b, 1);
 }
+export function prodb(numbers) {
+    return numbers.reduce((a, b) => a * b, 1n);
+}
+export function minb(numbers) {
+    return numbers.reduce((a, b) => a < b ? a : b, numbers[0]);
+}
+export function maxb(numbers) {
+    return numbers.reduce((a, b) => a > b ? a : b, numbers[0]);
+}
 //# sourceMappingURL=util.js.map
