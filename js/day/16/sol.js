@@ -32,24 +32,16 @@ class Reader {
         return (this.data[i] >>> (31 - j)) & 1;
     }
     uint(length) {
-        let int = 0;
-        for (let i = 0; i < length; i++) {
-            int = (int << 1) | this.bit();
+        if (this.done) {
+            throw new Error(`${this.bc}`);
         }
+        const i = Math.floor(this.bc / bits), j = this.bc % bits;
+        let int = (this.data[i] << j) >>> (bits - length);
+        if (length > bits - j) {
+            int |= this.data[i + 1] >>> (bits - length + bits - j);
+        }
+        this.bc += length;
         return int;
-        // if (this.done){
-        //     throw new Error(`${this.bc}`);
-        // }
-        // const i = Math.floor(this.bc / bits), j = this.bc % bits;
-        // let int = (this.data[i] << j) >>> (bits - length);
-        // if (length > bits - j){
-        //     const shift = (bits - length) + (bits - j);
-        //     console.log("aaa", shift, int);
-        //     int |= (this.data[i+1] << shift) >>> shift;
-        //     console.log("bbb", int);
-        // }
-        // this.bc += length
-        // return int;
     }
 }
 function part1({ input_str }) {

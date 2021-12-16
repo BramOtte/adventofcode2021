@@ -36,36 +36,26 @@ class Reader {
     }
 
     uint(length: number){
-        let int = 0;
-        for (let i = 0; i < length; i++){
-            int = (int << 1) | this.bit();
+        if (this.done){
+            throw new Error(`${this.bc}`);
         }
+        const i = Math.floor(this.bc / bits), j = this.bc % bits;
+        let int = (this.data[i] << j) >>> (bits - length);
+        if (length > bits - j){
+            int |= this.data[i+1] >>> (bits - length + bits - j)
+        }
+        this.bc += length
         return int;
-
-        // if (this.done){
-        //     throw new Error(`${this.bc}`);
-        // }
-        // const i = Math.floor(this.bc / bits), j = this.bc % bits;
-        // let int = (this.data[i] << j) >>> (bits - length);
-        // if (length > bits - j){
-        //     const shift = (bits - length) + (bits - j);
-        //     console.log("aaa", shift, int);
-        //     int |= (this.data[i+1] << shift) >>> shift;
-        //     console.log("bbb", int);
-        // }
-        // this.bc += length
-        // return int;
     }
 }
-// const c = 7;
+// const c = 9;
 // let m = (1 << c)-1, a = m, b = m;
-// let l = 7, j = 2;
+// let l = 7, j = 4;
 // console.log([
 //     a = (a << j) & m,
 //     a = (a >>> (c-l)) & m,
 //     l >= (c-j),
-//     b = (b << ( (c-l)+(c-j))) & m,
-//     b = (b >>> ((c-l)+(c-j))) & m
+//     b = (b >>> (c - l + c - j)) & m
 // ].map(v => v.toString(2)));
 
 
